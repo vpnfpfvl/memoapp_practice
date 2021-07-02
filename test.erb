@@ -1,0 +1,12 @@
+<% require 'securerandm' %>
+require 'json'
+
+hash = {
+  memo_uuid: "#{SecureRandom.uuid}",
+  title: "taitoru",
+  text: "#memo"
+  }
+hash[:title] = "タイトルなし" if hash[:title].empty?
+File.open("data/#{hash[:memo_uuid]}.json","w") {|file| 
+  file.puts(JSON.generate(hash))
+}

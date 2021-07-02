@@ -1,0 +1,35 @@
+<% require "json" %>
+<% files = [] %>
+<% Dir.foreach('data/') do |item| %>
+  <% next if item == '.' or item == '..' %>
+  <% files << item %>
+<% end %>
+
+<h1>メモ帳</h1>
+<h2>メモ一覧</h2>
+
+<ul class="memo_list">
+<% files.each do |file| %>
+  <% File.open("data/#{file}") do |f| %>
+    <% hash = JSON.load(f) %>
+    <li class="memo_item">
+    <a href="memo/<%= hash["memo_uuid"] %>"> <%= hash["title"] %></a>
+
+    <form action="/memo/<%= hash["memo_uuid"]%>/edit" method="GET">
+    <input type="submit" value="編集する">
+    </form>
+
+    <form action="/memo/<%= hash["memo_uuid"]%>/delete_complete" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="削除する">
+    </form>
+
+    </li>
+  <% end %>
+<% end %>
+</ul>
+
+<h2>メモ追加</h2>
+<section class="add_memo">
+<a href="add_new_memo">メモを追加する</a>
+</section>

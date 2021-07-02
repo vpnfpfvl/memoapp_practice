@@ -1,0 +1,14 @@
+<h1>メモ</h1>
+<h2><%= @hash["title"] %></h2>
+<p><%=  @hash['text'].gsub(/\\r\\n/) { '</p><p>' } %></p>
+
+<form action="/memo/<%= @hash["memo_uuid"]%>/edit" method="GET">
+  <input type="submit" value="編集する">
+</form>
+
+<form action="/memo/<%= @hash["memo_uuid"]%>/delete_complete" method="POST">
+  <input type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="削除する">
+</form>
+
+<p><a href = "/" >戻る</a></p>
