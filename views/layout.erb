@@ -3,12 +3,18 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width", initial-scale=1>
   <title><%= @title %></title>
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
-<body>
-  <div class="container">
+
+<div class="container">
+  <header class="header">
+  </header>
+  <div class="body">
+  <img src="image.png" alt="海の写真" title="空と海">
     <%= yield %>
   </div>
-</body>
+</div>
+
 </html>
