@@ -5,15 +5,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width", initial-scale=1>
   <title><%= @title %></title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <div class="container">
   <header class="header">
   </header>
   <div class="body">
-  <img src="image.png" alt="海の写真" title="空と海">
-    <%= yield %>
+    <section class="contents">
+      <div class="memo_display">
+        <%= yield %>
+      </div>
+      <div class="menu">
+        <a href="add_new_memo">メモを追加する</a>
+      </div>
+      <div class="desk_img">
+        <img src="/img/desk.png">
+      </div>
+    </section>
+    
   </div>
 </div>
 

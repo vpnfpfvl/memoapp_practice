@@ -80,20 +80,54 @@ img {
 
 html {
   font-family: arial, sans-serif;
+  font-size: 16px;
+  background-color: #cdd9d5;
 }
 
-body {
-  color: #444;
-  background-color: #aaa;
-}
-
-/* 全体を真ん中に配置 */
 .container {
-  width: 980px;
-  margin-left: auto;
+  width: auto;
+  height: 100vh;
+}
+
+.body {
+  height: 90%;
+  top: 6vh;
+  background: url(img/background.jpg) no-repeat center;
+  background-size: contain;
+}
+
+.contents {
+  position: relative;
+  width: 70vh;
+  top: 6vh;
   margin-right: auto;
-  background-color: #666;
-  box-shadow: rgba(0, 0, 0, .4) 0 0 8px;
-  /* floatを使った場合の対策 */
-  overflow: hidden; 
+  margin-left : auto;
+}
+
+.memo_display {
+  width: 37vh;
+  height: 72vh;
+  margin : 0 auto;
+  overflow-y: scroll;
+}
+
+
+.menu {
+  width: 37vh;
+  height: 4vh;
+  margin-right: auto;
+  margin-left : auto;
+  margin-top: 1vh;
+
+  text-align: right;
+} 
+
+.desk_img {
+  position: absolute;
+  margin : 0 auto;
+  top: 63vh;
+  left: 7vh;
+  width: 55vh;
+  /* 画像のクリックを投下させて、後ろのリンクをクリックできるようにする */
+  pointer-events: none; 
 }
