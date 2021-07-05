@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
 require "erb"
+require 'securerandom'
 
 # htmlをエスケープするモジュールを読み込む
 include ERB::Util
@@ -16,7 +17,6 @@ enable :method_override
 
 get '/' do
   @title = pagetitle('一覧')
-  @h1 = "メモノート"
   erb :index
 end
 
@@ -26,43 +26,59 @@ get '/add_new_memo' do
 end
 
 post '/post_complete' do
-  @title = pagetitle(html_escape(params[:title]))
-  @memo_text = html_escape(params[:memo_text])
-  erb :post_complete
+  # title = html_escape(params[:title])
+  # memo_text = html_escape(params[:memo_text])
+
+  hash = {
+  memo_uuid: "#{SecureRandom.uuid}",
+  title: "#{html_escape(params[:title])}",
+  text: "#{html_escape(params[:memo_text])}"
+  }
+  hash[:title] = "タイトルなし" if hash[:title].empty? 
+
+  File.open("data/#{hash[:memo_uuid]}.json","w") {|file| 
+    file.puts(JSON.generate(hash))
+  }
+
+  redirect '/'
 end
 
 get '/memo/:memo_uuid' do |memo_uuid|
-  hash = {}
+  @hash = {}
   File.open("data/#{memo_uuid}.json") do |f|
-  hash = JSON.load(f)
-end
-@hash = hash
-@title = pagetitle(hash["title"])
-
+    @hash = JSON.load(f)
+  end
+  @title = pagetitle(@hash["title"])
   erb :memo_detail
 end
 
-delete '/memo/:memo_uuid/delete_complete' do 
-  |memo_uuid|
-  @title = pagetitle('削除')
-  @memo_uuid = memo_uuid
-  erb :delete_complete
+delete '/memo/:memo_uuid/delete_complete' do |memo_uuid|
+  File.delete("data/#{memo_uuid}.json")
+  
+  redirect '/'
 end
 
 patch '/memo/:memo_uuid/edit_complete' do |memo_uuid|
-  @memo_uuid = memo_uuid
-  @title = html_escape(params[:title])
-  @memo_text = html_escape(params[:memo_text])
-  erb :edit_complete
+  hash = {
+  memo_uuid: "#{memo_uuid}",
+  title: "#{html_escape(params[:title])}",
+  text: "#{html_escape(params[:memo_text])}"
+  }
+  hash[:title] = "タイトルなし" if hash[:title].empty?
+
+  File.open("data/#{hash[:memo_uuid]}.json","w") {|file| 
+    file.puts(JSON.generate(hash))
+  }
+
+  redirect "/memo/#{hash[:memo_uuid]}"
 end
 
 get '/memo/:memo_uuid/edit' do |memo_uuid|
   @title = pagetitle('編集')
-  hash = {}
+  @hash = {}
   File.open("data/#{memo_uuid}.json") do |f|
-  hash = JSON.load(f)
+    @hash = JSON.load(f)
   end
-  @hash = hash
   erb :memo_edit
 end
 

@@ -11,18 +11,24 @@
   <% File.open("data/#{file}") do |f| %>
     <% hash = JSON.load(f) %>
     <li class="memo_item">
-    <a href="memo/<%= hash["memo_uuid"] %>"> <%= hash["title"] %></a>
+      <a href="memo/<%= hash["memo_uuid"] %>" class="menu_memotitle"> <%= hash["title"] %></a>
+      <p class="memo_text">
+      <%# t = hash['text'].gsub(/\\r\\n/) { '</p><p>' } %>
+        <%= hash['text'].gsub(/\\r\\n/) { '\n' }.split(/\n/)[0]
 
-    <form action="/memo/<%= hash["memo_uuid"]%>/edit" method="GET">
-    <input type="submit" value="編集する">
-    </form>
-
-    <form action="/memo/<%= hash["memo_uuid"]%>/delete_complete" method="POST">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="削除する">
-    </form>
-
+        %>
+      </p>
+      <div class="memo_buttons">
+        <form action="/memo/<%= hash["memo_uuid"]%>/edit" method="GET" >
+          <input type="submit" value="Edit" class="button">
+        </form>
+        <form action="/memo/<%= hash["memo_uuid"]%>/delete_complete" method="POST" >
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="submit" value="Delete" class="button">
+        </form>
+      </div>
     </li>
+    <hr>
   <% end %>
 <% end %>
 </ul>

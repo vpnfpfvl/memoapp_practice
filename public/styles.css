@@ -1,9 +1,3 @@
-/*
-////////////////////////////////////////
-reset.css を読み込んで全てのスタイルをなくす
-////////////////////////////////////////
-*/
-
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -53,12 +47,6 @@ table {
 	border-spacing: 0;
 }
 
-/*
-////////////////////////////////////////
-reset.css では足りない初期化を追加
-////////////////////////////////////////
-*/
-
 /* 全てに box-sizing: border-box; を適用 */
 *, *:before, *:after {
   box-sizing: border-box;
@@ -74,19 +62,21 @@ img {
 
 /*
 ////////////////////////////////////////
-初期設定
+以下オリジナルCSS
 ////////////////////////////////////////
 */
 
 html {
   font-family: arial, sans-serif;
   font-size: 16px;
-  background-color: #cdd9d5;
+  background-color: #cfe0db;
 }
 
 .container {
   width: auto;
   height: 100vh;
+
+  scrollbar-color: #a5cec1 #cfe0db;
 }
 
 .body {
@@ -111,7 +101,6 @@ html {
   overflow-y: scroll;
 }
 
-
 .menu {
   width: 37vh;
   height: 4vh;
@@ -125,9 +114,106 @@ html {
 .desk_img {
   position: absolute;
   margin : 0 auto;
-  top: 63vh;
+  top: 69vh;
   left: 7vh;
   width: 55vh;
   /* 画像のクリックを投下させて、後ろのリンクをクリックできるようにする */
   pointer-events: none; 
+}
+
+.memo_item a {
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #596463;
+}
+
+.memo_item a:active {
+  color: #819c8b;
+}
+
+.memo_item memo_text {
+  font-size: 0.9rem;
+}
+
+.memo_buttons {
+  width: 34vh;
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+.button {
+  font-size: 0.8rem;
+  text-align: center;
+  box-sizing: border-box;
+  margin-left: 1vh;
+  font-weight: Light;
+  border-radius: 4px;
+  border: 2px solid rgba(74, 100, 96, 0.3);
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.memo_item:nth-of-type(n+2) {
+  margin-top: 2vh;
+}
+
+hr {
+  border-top:1px;
+  border-color: rgb(201, 211, 208);
+}
+
+.memo_title {
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #596463;
+  margin-top: 1vh;
+}
+
+.memo_text {
+  margin-top: 1vh;
+  font-size: 0.9rem;
+}
+
+.foot_menu {
+  font-size: 0.8rem;
+  color: #596463;
+}
+
+.form-item__text-input {
+  background-color:transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #b6ccca;
+  border-radius: 1px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #596463;
+  width: 34vh;
+  margin-top: 1vh;
+  
+}
+
+.form-item__text-input:focus {
+  outline: none;
+  border: 1px solid #596463;
+}
+
+.form-item__textarea {
+  background-color:transparent;
+  border: 1px solid #b6ccca;
+  resize: none;
+  width: 34vh;
+  height: 58vh;
+  margin-top: 2vh;
+}
+
+.form-item__textarea:focus {
+  outline: none;
+  border: 1px solid #596463;
 }
