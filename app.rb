@@ -19,10 +19,10 @@ enable :method_override
 ##########
 # helper #
 ##########
-include ERB::Util
+
 helpers do
   def text_replased_br(text)
-    html_escape(text).gsub(/\r\n/, "<br>")
+    memod.html_escape_helper(text).gsub(/\r\n/, '<br>')
   end
 end
 
@@ -117,6 +117,10 @@ class MeMod
     File.open("data/#{hash[:memo_uuid]}.json", 'w') do |file|
       file.puts(JSON.generate(hash))
     end
+  end
+
+  def html_escape_helper(text)
+    html_escape(text)
   end
 end
 
