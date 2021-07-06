@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require 'rubygems'
+require 'bundler/setup'
 require 'sinatra'
 require 'sinatra/reloader'
+require 'webrick'
 require 'json'
 require 'erb'
 require 'securerandom'
