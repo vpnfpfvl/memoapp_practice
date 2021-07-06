@@ -14,7 +14,7 @@ enable :method_override
 
 # errorや404を捕捉するため 環境設定を変更。
 # ただし、productionだとsinatra reloaderは機能しなくなる
-# set environment: :production
+set environment: :production
 
 ##########
 # helper #
