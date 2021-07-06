@@ -14,7 +14,17 @@ enable :method_override
 
 # errorや404を捕捉するため 環境設定を変更。
 # ただし、productionだとsinatra reloaderは機能しなくなる
-set environment: :production
+# set environment: :production
+
+##########
+# helper #
+##########
+include ERB::Util
+helpers do
+  def text_replased_br(text)
+    html_escape(text).gsub(/\r\n/, "<br>")
+  end
+end
 
 ###########
 # routing #
@@ -104,7 +114,6 @@ class MeMod
   end
 
   def write_jsonfile(hash)
-    p hash[:text]
     File.open("data/#{hash[:memo_uuid]}.json", 'w') do |file|
       file.puts(JSON.generate(hash))
     end

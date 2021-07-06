@@ -12,10 +12,7 @@
     <li class="memo_item">
       <a href="memo/<%= hash["memo_uuid"] %>" class="menu_memotitle"> <%= hash["title"] %></a>
       <p class="memo_text">
-      <%# t = hash['text'].gsub(/\\r\\n/) { '</p><p>' } %>
-        <%= hash['text'].gsub(/\\r\\n/) { '\n' }.split(/\n/)[0]
-
-        %>
+        <%= hash['text'].gsub(/\\r\\n/, '\n').split(/\n/)[0] %>
       </p>
       <div class="memo_buttons">
         <form action="/memo/<%= hash["memo_uuid"]%>/edit" method="GET" >

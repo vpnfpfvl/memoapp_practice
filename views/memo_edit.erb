@@ -1,4 +1,4 @@
-<form action="/memo/<%= @hash["memo_uuid"]%>/edit_complete" method="POST">
+<form action="/memo/<%= @hash["memo_uuid"] %>/edit_complete" method="POST">
   <input type="hidden" name="_method" value="PATCH">
   <div class="form-item">
     <label class="form-item__label"></label>
@@ -6,7 +6,9 @@
   </div>
   <div class="form-item">
     <label class="form-item__label"></label>
-    <textarea name="memo_text" class="form-item__textarea"><%= @hash["text"] %></textarea>
+    <textarea name="memo_text" class="form-item__textarea">
+      <%= @hash["text"]%>
+    </textarea>
   </div>
   <div class="memo_buttons">
     <input type="submit" value="送信する"class="button">

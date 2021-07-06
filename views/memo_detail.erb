@@ -1,5 +1,5 @@
-<p class="memo_title"><%= @hash["title"] %></p>
-<p class="memo_text"><%=  @hash['text'] %></p>
+<p class="memo_title"><%= @hash['title'] %></p>
+<p class="memo_text"><%= text_replased_br(@hash['text']) %></p>
 <div class="memo_buttons">
   <form action="/memo/<%= @hash["memo_uuid"]%>/edit" method="GET">
     <input type="submit" value="編集する" class="button">
@@ -10,4 +10,3 @@
     <input type="submit" value="削除する" class="button">
   </form>
 </div>
-

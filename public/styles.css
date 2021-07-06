@@ -217,3 +217,7 @@ hr {
   outline: none;
   border: 1px solid #596463;
 }
+
+.form-item__textarea {
+  white-space: pre-line;
+}
