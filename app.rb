@@ -11,7 +11,7 @@ enable :method_override
 
 # errorや404を捕捉するため 環境設定を変更。
 # ただし、productionだとsinatra reloaderは機能しなくなる
-set environment: :production
+# set environment: :production
 
 # htmlをエスケープするモジュールを読み込む
 include ERB::Util
@@ -29,8 +29,8 @@ end
 post '/post_complete' do
   hash = make_new_hash(
     SecureRandom.uuid.to_s,
-    html_escape(params[:title]).to_s,
-    html_escape(params[:memo_text]).to_s
+    params[:title],
+    params[:memo_text]
   )
   write_jsonfile(hash)
   redirect '/'
@@ -50,8 +50,8 @@ end
 patch '/memo/:memo_uuid/edit_complete' do |memo_uuid|
   hash = make_new_hash(
     memo_uuid.to_s,
-    html_escape(params[:title]).to_s,
-    html_escape(params[:memo_text]).to_s
+    params[:title],
+    params[:memo_text]
   )
   write_jsonfile(hash)
   redirect "/memo/#{hash[:memo_uuid]}"
@@ -84,11 +84,17 @@ def convert_jsonfile_to_hash(source)
 end
 
 def make_new_hash(uuid, title, text)
-  hash = { memo_uuid: uuid, title: title, text: text }
+  hash = {
+    memo_uuid: uuid,
+    title: html_escape(title).to_s,
+    text: html_escape(text).to_s
+  }
   hash[:title] = 'タイトルなし' if hash[:title].empty?
+  hash
 end
 
 def write_jsonfile(hash)
+  p hash[:text]
   File.open("data/#{hash[:memo_uuid]}.json", 'w') do |file|
     file.puts(JSON.generate(hash))
   end
