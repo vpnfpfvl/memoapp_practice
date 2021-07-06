@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width", initial-scale=1>
+    <title><%= @title %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width", initial-scale=1>
-  <title><%= @title %></title>
-  <link rel="stylesheet" href="/styles.css" />
-</head>
-
-<div class="container">
-  <header class="header">
-  </header>
-  <div class="body">
-    <section class="contents">
-      <div class="memo_display">
-        <%= yield %>
-      </div>
-      <div class="menu">
-        <a href="/" class="foot_menu">メモ一覧</a>
-
-        <a href="/add_new_memo" class="foot_menu">メモを追加する</a>
-      </div>
-      <div class="desk_img">
-        <img src="/img/desk.png">
-      </div>
-    </section>
-    
+  <div class="container">
+    <header class="header">
+    </header>
+    <div class="body">
+      <section class="contents">
+        <div class="memo_display">
+          <%= yield %>
+        </div>
+        <div class="menu">
+          <a href="/" class="foot_menu">メモ一覧</a>
+          <a href="/add_new_memo" class="foot_menu">メモを追加する</a>
+        </div>
+        <div class="desk_img">
+          <img src="/img/desk.png">
+        </div>
+      </section>
+    </div>
   </div>
-</div>
-
 </html>

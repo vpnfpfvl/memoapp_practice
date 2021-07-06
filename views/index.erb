@@ -5,7 +5,6 @@
   <% files << item %>
 <% end %>
 
-
 <ul class="memo_list">
 <% files.each do |file| %>
   <% File.open("data/#{file}") do |f| %>
