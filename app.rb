@@ -11,34 +11,34 @@ enable :method_override
 
 # errorや404を捕捉するため 環境設定を変更。
 # ただし、productionだとsinatra reloaderは機能しなくなる
-# set environment: :production
+set environment: :production
 
-# htmlをエスケープするモジュールを読み込む
-include ERB::Util
-
+###########
+# routing #
+###########
 get '/' do
-  @title = pagetitle('一覧')
+  @title = memod.pagetitle('一覧')
   erb :index
 end
 
 get '/add_new_memo' do
-  @title = pagetitle('新規作成')
+  @title = memod.pagetitle('新規作成')
   erb :add_new_memo
 end
 
 post '/post_complete' do
-  hash = make_new_hash(
+  hash = memod.make_new_hash(
     SecureRandom.uuid.to_s,
     params[:title],
     params[:memo_text]
   )
-  write_jsonfile(hash)
+  memod.write_jsonfile(hash)
   redirect '/'
 end
 
 get '/memo/:memo_uuid' do |memo_uuid|
-  @hash = convert_jsonfile_to_hash("data/#{memo_uuid}.json")
-  @title = pagetitle(@hash['title'])
+  @hash = memod.convert_jsonfile_to_hash("data/#{memo_uuid}.json")
+  @title = memod.pagetitle(@hash['title'])
   erb :memo_detail
 end
 
@@ -48,54 +48,66 @@ delete '/memo/:memo_uuid/delete_complete' do |memo_uuid|
 end
 
 patch '/memo/:memo_uuid/edit_complete' do |memo_uuid|
-  hash = make_new_hash(
+  hash = memod.make_new_hash(
     memo_uuid.to_s,
     params[:title],
     params[:memo_text]
   )
-  write_jsonfile(hash)
+  memod.write_jsonfile(hash)
   redirect "/memo/#{hash[:memo_uuid]}"
 end
 
 get '/memo/:memo_uuid/edit' do |memo_uuid|
-  @title = pagetitle('編集')
-  @hash = convert_jsonfile_to_hash("data/#{memo_uuid}.json")
+  @title = memod.pagetitle('編集')
+  @hash = memod.convert_jsonfile_to_hash("data/#{memo_uuid}.json")
   erb :memo_edit
 end
 
 not_found do
-  @title = pagetitle('ファイルが存在しません')
+  @title = memod.pagetitle('ファイルが存在しません')
   'ファイルが存在しません'
 end
 
 error do
-  @title = pagetitle('エラー')
+  @title = memod.pagetitle('エラー')
   puts "エラーが発生しました。 -  #{env['sinatra.error'].message}"
 end
 
-def pagetitle(title)
-  "#{title} / メモ帳"
-end
+################
+# 補助メソッド #
+################
 
-def convert_jsonfile_to_hash(source)
-  File.open(source) do |f|
-    JSON.parse(f.read)
+class MeMod
+  include ERB::Util
+
+  def pagetitle(title)
+    "#{title} / メモ帳"
+  end
+
+  def convert_jsonfile_to_hash(source)
+    File.open(source) do |f|
+      JSON.parse(f.read)
+    end
+  end
+
+  def make_new_hash(uuid, title, text)
+    hash = {
+      memo_uuid: uuid,
+      title: html_escape(title).to_s,
+      text: html_escape(text).to_s
+    }
+    hash[:title] = 'タイトルなし' if hash[:title].empty?
+    hash
+  end
+
+  def write_jsonfile(hash)
+    p hash[:text]
+    File.open("data/#{hash[:memo_uuid]}.json", 'w') do |file|
+      file.puts(JSON.generate(hash))
+    end
   end
 end
 
-def make_new_hash(uuid, title, text)
-  hash = {
-    memo_uuid: uuid,
-    title: html_escape(title).to_s,
-    text: html_escape(text).to_s
-  }
-  hash[:title] = 'タイトルなし' if hash[:title].empty?
-  hash
-end
-
-def write_jsonfile(hash)
-  p hash[:text]
-  File.open("data/#{hash[:memo_uuid]}.json", 'w') do |file|
-    file.puts(JSON.generate(hash))
-  end
+def memod
+  MeMod.new
 end
